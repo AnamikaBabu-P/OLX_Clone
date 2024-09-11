@@ -1,0 +1,18 @@
+
+import { initializeApp } from "firebase/app";
+import {getAuth,GoogleAuthProvider} from 'firebase/auth'
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBeb2Ry3BmACtrEc6nWjIJ35wiEKzeEFEQ",
+  authDomain: "olx-project-a1066.firebaseapp.com",
+  projectId: "olx-project-a1066",
+  storageBucket: "olx-project-a1066.appspot.com",
+  messagingSenderId: "438807352000",
+  appId: "1:438807352000:web:bd2e3fe82c88efd270d325"
+};
+
+
+const app = initializeApp(firebaseConfig);
+export const auth = getAuth(app)
+export const googleProvider = new GoogleAuthProvider()
