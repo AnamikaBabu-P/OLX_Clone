@@ -6,12 +6,15 @@ import search from '../assets/white_lens.png'
 import Login from './Login'
 import { auth } from '../firebase/setup'
 import { signOut } from 'firebase/auth'
+import { useNavigate } from 'react-router-dom'
 
 type searchProp = {
     setSearch: any
 }
 
 const Navbar = (props: searchProp) => {
+
+    const navigate = useNavigate()
     const [loginPop, setLoginPop] = useState(false)
     const [user, setUser] = useState<any>(null)
 
@@ -54,7 +57,7 @@ const Navbar = (props: searchProp) => {
                         <h1 className='font-bold text-lg'>Logout</h1>
                     </div>
                 )}
-                <div className='flex h-12 p-3 ml-auto cursor-pointer rounded-full text-center border-4 border-blue-500'>
+                <div  onClick={() => navigate('/sell')} className='flex h-12 p-3 ml-auto cursor-pointer rounded-full text-center border-4 border-blue-500'>
                     <h1 className='font-bold text-lg text-center  ml-3'>+ SELL</h1>
                 </div>
             </div>
