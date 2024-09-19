@@ -7,7 +7,7 @@ const Details = () => {
     console.log(location)
   return (
     <div className="flex p-4">
-     <img src={location?.state?.data?.image} />
+     <img src={location?.state?.data?.url} width={300} height={300} />
      <div>
         <h1 className="font-bold text-3xl">$ {location?.state?.data?.price}</h1>
         <h1 className="mt-5"><span className="font-semibold">Category</span> : {location?.state?.data?.title}</h1>

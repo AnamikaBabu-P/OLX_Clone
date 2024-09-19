@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, Firestore } from "firebase/firestore";
 import { db, storage } from '../firebase/setup'; 
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"; 
 
@@ -26,29 +26,54 @@ const SellProduct = ({ addProduct }: { addProduct: any }) => {
         }
 
         
-        const storageRef = ref(storage, `products/${imageFile.name}`);
-
         try {
-            const snapshot = await uploadBytes(storageRef, imageFile);
-            
+        // const storageRef = ref(storage,`products/${imageFile.name}`);
+
             console.log('starting')
-            const imageURL = await getDownloadURL(snapshot.ref); 
-            const newProduct = {
-                title,
-                description,
-                category,
-                price: parseFloat(price), 
-                image: imageURL 
-            };
+            // const snapshot = await uploadBytes(storageRef, imageFile).then((snapshot) => {
+            //     console.log('Uploaded a blob or file!')}).catch(err=>console.log(err))
+            // console.log(snapshot,'snapshot')
+            // console.log(storageRef,'storageRef')
+            // const imageURL = await getDownloadURL(snapshot.ref); 
+            const data=new FormData()
+            data.append("file", imageFile);
+            data.append("upload_preset", "chat-app");
+            data.append("cloud_name", "piyushproj");
+        
+            fetch("https://api.cloudinary.com/v1_1/piyushproj/image/upload", {
+                method: "post",
+                body: data,
+              }).then((res) => res.json()).then(async(data)=>{
+                const url=data.url.toString();
+                console.log(url,"url");
+                const doc = await addDoc(collection(db, "products"), {
+                    title,
+                    price,
+                    url,
+                    description,
+                    category
+                
+                  });
+                  console.log(doc, "doc");
+          
+        })
+            // const newProduct = {
+        //         title,
+        //         description,
+        //         category,
+        //         price: parseFloat(price), 
+        //         // image: imageURL 
+        //     };
 
-           console.log('dlskjdkfl')
-            await addDoc(collection(db, 'products'), newProduct);
+        //    console.log('dlskjdkfl')
+        //     await addDoc(collection(db, 'products'), newProduct);
 
-            addProduct(newProduct);
+        //     addProduct(newProduct);
 
             navigate('/');
-        } catch (error) {
-            console.error('Error adding product: ', error);
+        } catch (error:any) {
+            console.log('jkadjfklasjdkladjklfafjfkldaj')
+            console.log('Error adding product: ', error.message);
         }
     };
 
